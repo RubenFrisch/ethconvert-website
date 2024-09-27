@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Define character encoding for the HTML document -->
+    <meta charset="UTF-8">
+
+    <!-- Match the width of the device' screen (mobile, tablet), initial zoom level 100% with no scaling when loading page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Browser tab title, bookmark title, SEO index -->
+    <title>Ether Unit Converter (Ether, GWEI, WEI, USD, HUF) with dynamic price data</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+
+    <style> /* CSS code for HTML styling */
+        
+        /* Webpage body styling */
+        body {
+            background-color: #121212; /* Background color of the entire page (body) */
+            color: #ffffff; /* Default text color */
+            font-family: 'Arial'; /* Font type */
+            padding: 20px; /* Space between the body elements and page edge*/
+            max-width: 500px; /* Maximum screen width*/
+            margin: auto; /* Middle centered horizontally */
+        }
+
+        /* Header styling */
+        h1 {
+            color: #ff9800; /* Text color of the header */
+            text-align: center; /* Centered middle */
+            margin-bottom: 20px; /* Pixels space below the header*/
+        }
+
+        /* Label styling */
+        label {
+            font-size: 16px; /* Font size of labels */
+            font-weight: bold; /* Bold label text */
+            margin-top: 10px; /* Pixels space above the labels */
+            color: #cacaca; /* Color of label text */
+        }
+
+        /* Input field styling */
+        input {
+            padding: 10px; /* Space between the edges and the text inside the input fields */
+            width: 100%; /* Fill out the whole width of the parent container */
+            box-sizing: border-box; /* Total width of the input field will include the padding and border */
+            margin-top: 10px; /* Pixels above the input fields */
+            margin-bottom: 10px; /* Pixels below the input fields */
+            border: 1px solid #333333; /* Input field border size and color */
+            background-color: #222222; /* Background color of the input fields */
+            color: #ffffff; /* Input field foretext color */
+            border-radius: 6px; /* Slightly rounded corners for input fields */
+        }
+
+        /* Focus pseudo class styling on input fields*/
+        #ether:focus {
+            border: 1px solid #ff8800; /* Red border on focus */
+            outline: none; /* Disable default outline */
+        }
+
+        #gwei:focus {
+            border: 1px solid #ff8800; /* Red border on focus */
+            outline: none; /* Disable default outline */
+        }
+
+        #wei:focus {
+            border: 1px solid #ff8800; /* Red border on focus */
+            outline: none; /* Disable default outline */
+        }
+
+        #usd:focus {
+            border: 1px solid #ff8800; /* Red border on focus */
+            outline: none; /* Disable default outline */
+        }
+
+        #huf:focus {
+            border: 1px solid #ff8800; /* Red border on focus */
+            outline: none; /* Disable default outline */
+        }
+
+        /*Hide the spinner button on the input fields (ether, gwei, wei, usd, huf) */
+        input[id = ether]::-webkit-outer-spin-button { /* Target the 'ether' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides thespinner button's outer part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = ether]::-webkit-inner-spin-button { /* Target the 'ether' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides spinner button inner part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = gwei]::-webkit-outer-spin-button { /* Target the 'gwei' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides thespinner button's outer part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = gwei]::-webkit-inner-spin-button { /* Target the 'gwei' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides spinner button inner part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = wei]::-webkit-outer-spin-button { /* Target the 'wei' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides thespinner button's outer part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = wei]::-webkit-inner-spin-button { /* Target the 'wei' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides spinner button inner part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = usd]::-webkit-outer-spin-button { /* Target the 'usd' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides thespinner button's outer part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = usd]::-webkit-inner-spin-button { /* Target the 'usd' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides spinner button inner part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = huf]::-webkit-outer-spin-button { /* Target the 'huf' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides thespinner button's outer part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        input[id = huf]::-webkit-inner-spin-button { /* Target the 'huf' input field to hide the spinner button */
+            -webkit-appearance: none; /* Hides spinner button inner part */
+            margin: 0; /* Hidden spinner button should not take up any place (to avoid alignment issues) */
+        }
+
+        /* Footer element styling */
+        footer { 
+            text-align: center; /* Center text alignment*/
+            margin-top: 50px; /* Add top margin above the footer element*/
+            font-size: 15px; /* The font size of the footer element */
+            color: #a5a5a5; /* The text color of the footer element */
+        }
+        
+        footer a { /* Styling of the link element inside the footer */
+            color: #ff9800; /* Link element text color */
+        }
+
+        footer a:hover { /* Link hover subclass */
+            color: #3846ff; /* Change the color of the link when the user hovers over it*/
+        }
+
+        footer a:active{ /* Link active subclass */
+            color: #939bff; /* Change the color of the link when it is clicked */
+        }
+
+        /* Styling that targets the element 'dynamic-ether-price-container' */
+        #dynamic-ether-price-container { 
+            display: flex; /* flexbox rules will apply to all child HTML elements inside the container */
+            flex-direction: column; /* Center child elements vertically */
+            align-items: center; /* Center child elements horizontally (Cross-axis) */
+            justify-content: center; /* Center child elements horizontally to the middle (Main axis)*/
+            margin-top: 20px; /* Space above the container */
+            background-color: #1e1e1e; /* Sets the background color of the container */
+            padding: 20px; /* Inside padding between the edges of the container and the elements inside it */
+            border-radius: 10px; /* Rounded corners for the container */
+        }
+
+        /* Styling that targets the element 'dynamic-ether-gas-container' */
+        #dynamic-ether-gas-container { 
+            display: flex; /* flexbox rules will apply to all child HTML elements inside the container */
+            flex-direction: column; /* Center child elements vertically */
+            align-items: center; /* Center child elements horizontally (Cross-axis) */
+            justify-content: center; /* Center child elements horizontally to the middle (Main axis)*/
+            margin-top: 20px; /* Space above the container */
+            background-color: #1e1e1e; /* Sets the background color of the container */
+            padding: 20px; /* Inside padding between the edges of the container and the elements inside it */
+            border-radius: 10px; /* Rounded corners for the container */
+        }
+
+        /* Styling that targets the 'eth-price' element */
+        #eth-price {
+            font-size: 22px; /* Text size of the element */
+            font-weight: bold; /* Makes the text bold inside the element */
+            color: #ff9800; /* Sets the color of the text inside the element */
+            text-align: center; /* Center the text horizontall */
+        }
+
+        /* Styling that targets the 'refresh-button' element */
+        #refresh-button {
+            margin-top: 25px; /* Space above the button */
+            background-color: #ff9800; /* Sets the background color of the button */
+            color: rgb(0, 0, 0); /* Sets the text color of the button */
+            font-size: 18px; /* The font size of the button */
+            cursor: pointer; /* Change the icon of the cursor when the user hovers over the button */
+            padding: 6px 12px; /* Creates space between the border and the text inside the button */
+            border: none; /* Remove the border of the button */
+            border-radius: 10px; /* Rounded corners for the button */
+            transition: background-color 0.1s ease; /* Show a transition effect when the user hovers or clicks the button */
+        }
+
+        /* Hover subclass of the 'refresh-button' */
+        #refresh-button:hover { 
+            background-color: #ce7b00; /* Change the color of the button when the user hovers over it */
+        }
+
+        /* Active subclass of the 'refresh-button' */
+        #refresh-button:active {
+            background-color: #ff7300; /* Change the color of the button when the user clicks on it*/
+        }
+
+        /* Styling that targets the 'refresh-gas-button' element */
+        #refresh-gas-button {
+            margin-top: 15px; /* Space above the button */
+            background-color: #ff9800; /* Sets the background color of the button */
+            color: black; /* Sets the text color of the button */
+            font-size: 18px; /* The font size of the button */
+            cursor: pointer; /* Change the icon of the cursor when the user hovers over the button */
+            padding: 6px 12px; /* Creates space between the border and the text inside the button*/
+            border: none; /* Remove the border of the button */
+            border-radius: 10px; /* Rounded corners for the button */
+            transition: background-color 0.1s ease; /* Show a transition effect when the user hovers or clicks the button */
+        }
+
+        /* Hover subclass of the 'refresh-gas-button' */
+        #refresh-gas-button:hover {
+            background-color: #ce7b00; /* Change the color of the button when the user hovers over it */
+        }
+
+        /* Active subclass of the 'refresh-gas-button' */
+        #refresh-gas-button:active {
+            background-color: #ff7300; /* Change the color of the button when the user clicks on it*/
+        }
+
+        /* Styling that targets the 'gas-price' element */
+        #gas-price {
+            font-size: 18px; /* Sets text size of the element */
+            font-weight: bold; /* Bold text */
+            color: #ff9800; /* Sets the text color of the element */
+            text-align: center; /* Center the text horizontally */
+        }
+
+        /* Styling that targets the 'countdown-timer-gas-price' element */
+        #countdown-timer-gas-price {
+            margin-top: 5px; /* Space above the element */
+            font-size: 14px; /* Font size of the element */
+            color: #a1a1a1; /* Text color of the element */
+            text-align: center; /* Text alignment centered */
+            padding: 5px; /* Space between the edges and the text of the element */
+        }
+
+        /* Styling that targets the 'low-gas' class */
+        .low-gas {
+            color: rgb(155, 255, 155); /* Sets the color of the class */
+        }
+
+        /* Styling that targets the 'average-gas' class */
+        .average-gas {
+            color: rgb(155, 155, 255); /* Sets the color of the class */
+        }
+
+        /* Styling that targets the 'high-gas' class */
+        .high-gas {
+            color: rgb(255, 155, 155);/* Sets the color of the class */
+        }
+
+        /* Styling that targets the 'countdown-timer-eth-price' element */
+        #countdown-timer-eth-price {
+            margin-top: 5px; /* Space above the element */
+            font-size: 14px; /* Font size of the element */
+            color: #a1a1a1; /* Text color of the element */
+            text-align: center; /* Text alignment centered horizontally*/
+            padding: 5px; /* Space between the edges and the text of the element */
+        }
+
+        /* Styling that targets the 'ether-converter-container' class */
+        .ether-converter-container {
+            background-color: #1e1e1e; /* Sets the background color of the container */
+            padding: 20px; /* Padding between the edges of the container and the elements inside it */
+            border-radius: 10px; /* Rounded corners for the container */
+        }
+
+        /* Styling that targets the 'input-group' class */
+        .input-group {
+            display: flex; /* Flexbox alignment */
+            align-items: center; /* Align items vertically in the center (cross axis)*/
+            margin-bottom: 25px; /* Space between input groups */
+        }
+ 
+        /* Styling that targets the input fields inside the 'input-group' class */
+        .input-group input {
+            flex-grow: 1; /* Input should take up all available space */
+            padding: 10px; /* Padding inside the input field */
+            margin-right: 10px; /* Space between input field and button */
+            border: 1px solid #333; /* Border for input fields */
+            background-color: #222; /* Background color of input fields */
+            color: #fff; /* Text color inside input fields */
+            border-radius: 5px; /* Rounded corners for input fields */
+            height: 30px; /* Fixed height for the input fields */
+            box-sizing: border-box; /* Padding and border are included in the total height */
+        }
+
+        /* Styling that targets the 'copy-btn' class */
+        .copy-btn {
+            background-color: #ff9800; /* Button background color */
+            color: black; /* Button text color */
+            font-size: 14px; /* Button font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            padding: 15px 10px; /* Padding inside the button */
+            height: 20px; /* Match the button height to the input field */
+            display: flex; /* Flexbox to align text within the button */
+            align-items: center; /* Vertically center the text inside the button */
+            justify-content: center; /* Center text horizontally */
+            border: none; /* Remove button border */
+            border-radius: 5px; /* Rounded corners for the button */
+            transition: background-color 0.1s ease; /* Smooth transition on hover */
+        }
+
+        /* Styling that targets the hover subclass of the 'copy-btn' class */
+        .copy-btn:hover {
+            background-color: #ce7b00; /* Change color of the button when the user hovers over it */
+        }
+
+        /* Styling that targets the active subclass of the 'copy-btn' class */
+        .copy-btn:active {
+            background-color: #ff7300; /* Changes color of the button when the user clicks on it */
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h1>Ether Converter</h1> <!-- Heading element text -->
+
+    <!-- Container to hold input fields and copy buttons related to conversion functionality -->
+    <div class="ether-converter-container">
+        <label for="ether">Ether</label> <!-- Label for the input group -->
+        <div class="input-group"> <!-- Input fields and copy buttons are paired into input groups to make CSS styling more efficient -->
+            <input type="text" id="ether" placeholder="Enter value in Ether" oninput="validateInput('ether'); convertFromEther()"> <!-- input field element, convertFromEther() is called upon input modification-->
+            <button class="copy-btn" onclick="copyToClipboard('ether')">Copy</button> <!-- Copies the content of the 'ether' input field to the clipboard of the user -->
+        </div>
+    
+        <label for="gwei">GWEI</label> <!-- Label for the input group -->
+        <div class="input-group"> <!-- Input fields and copy buttons are paired into input groups to make CSS styling more efficient -->
+            <input type="text" id="gwei" placeholder="Enter value in GWEI" oninput="validateInput('gwei'); convertFromGWEI()"> <!-- input field element, convertFromGWEI() is called upon input modification-->
+            <button class="copy-btn" onclick="copyToClipboard('gwei')">Copy</button> <!-- Copies the content of the 'gwei' input field to the clipboard of the user -->
+        </div>
+    
+        <label for="wei">WEI</label> <!-- Label for the input group -->
+        <div class="input-group"> <!-- Input fields and copy buttons are paired into input groups to make CSS styling more efficient -->
+            <input type="text" id="wei" placeholder="Enter value in WEI" oninput="validateInput('wei'); convertFromWEI()"> <!-- input field element, convertFromWEI() is called upon input modification-->
+            <button class="copy-btn" onclick="copyToClipboard('wei')">Copy</button> <!-- Copies the content of the 'wei' input field to the clipboard of the user -->
+        </div>
+    
+        <label for="usd">USD</label> <!-- Label for the input group -->
+        <div class="input-group"> <!-- Input fields and copy buttons are paired into input groups to make CSS styling more efficient -->
+            <input type="text" id="usd" placeholder="Enter value in USD" oninput="validateInput('usd'); convertFromUSD()"> <!-- input field element, convertFromUSD() is called upon input modification-->
+            <button class="copy-btn" onclick="copyToClipboard('usd')">Copy</button> <!-- Copies the content of the 'usd' input field to the clipboard of the user -->
+        </div>
+    
+        <label for="huf">HUF</label> <!-- Label for the input group -->
+        <div class="input-group"> <!-- Input fields and copy buttons are paired into input groups to make CSS styling more efficient -->
+            <input type="text" id="huf" placeholder="Enter value in HUF" oninput="validateInput('huf'); convertFromHUF()"> <!-- input field element, convertFromHUF() is called upon input modification-->
+            <button class="copy-btn" onclick="copyToClipboard('huf')">Copy</button> <!-- Copies the content of the 'huf' input field to the clipboard of the user -->
+        </div>
+    </div>
+
+    <!-- Container to hold all input fields and copy buttons of the ETH price functionality -->
+    <div id="dynamic-ether-price-container">
+        <div id="eth-price">Fetching Ethereum Price...</div>  <!-- This element holds the Ethereum price, the text content is manipulated by JS -->
+        <button id="refresh-button" onclick="fetchEthereumPrice()">Refresh ETH Price Now</button> <!-- Refresh button to get the updated Ethereum price when the button is clicked -->
+        <div id="countdown-timer-eth-price">Next update in 300 seconds</div> <!-- Countdown element to show the user how many seconds are left until the next automatic Ethereum price update occurs-->
+    </div>
+
+    <!-- Container to hold all input fields and copy buttons of the gas price functionality -->
+    <div id="dynamic-ether-gas-container">
+        <div id="gas-price">Fethcing Ethereum Gas Prices...</div> <!-- This element holds the gas prices, the text content is manipulated by JS -->
+        <button id="refresh-gas-button" onclick="fetchAndDisplayGasPrices()">Refresh Gas Prices Now</button> <!-- Refresh button to get the updated gas prices when the button is clicked -->
+        <div id="countdown-timer-gas-price">Next update in 30 seconds</div> <!-- Countdown element to show the user how many seconds are left until the next automatic gas price update occurs-->
+    </div>
+
+    <!-- Footer element to  hold information -->
+    <footer>
+        <p>Developed by: Ruben Frisch (ÓE-NIK, Business Informatics MSc)</p> <!-- Author paragraph -->
+        <p>Price data provided by <a href="https://www.coingecko.com/en/api/" target="_blank">CoinGecko API</a></p> <!-- CoinGecko API hyperlink (target blank to open link in new browser tab) --> 
+        <p>Ethereum network data provided by <a href="https://etherscan.io/apis/" target="_blank">Etherscan API</a></p> <!-- Etherscan API hyperlink (target blank to open link in new browser tab)-->
+    </footer>
+
+    <script>
+        const weiToGwei = 1e9; //https://docs.soliditylang.org/en/v0.8.27/units-and-global-variables.html#ether-units
+        const weiToEther = 1e18; //https://docs.soliditylang.org/en/v0.8.27/units-and-global-variables.html#ether-units
+        const etherscan_apiKey = 'A67CNW9S9FQUBZNWK2B3G1489RRVVDV3ID'; //Etherscan API key
+        const etherscan_apiUrl = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${etherscan_apiKey}`; //Gas oracle URL
+        let ethPrice = 0; //Store the USD price of Ethereum
+        let usdToHufRate = null; //Store the USD/HUF exchange rate
+
+        //If the number is smaller than 0.000001, format the number to the specified number of decimals, then remove deciaml number and trailing zeros using regex
+        function formatNumber(value, decimals = 18) {
+            if (Math.abs(value) < 1e-6) {
+                return value.toFixed(decimals).replace(/\.?0+$/, ''); // \.?0+$ -> / escape ., ? -> . is optional, 0+ matches one or more zeros in a row, $ end of string to only match the zeros at the end of the string, removes zeros at the end of the number, 100.000 -> 100
+            } else {
+                return value.toString();
+            }
+        }
+
+        //Called when the user fills out the 'wei' field, converts wei to gwei, ether, usd and huf and fills out the other input fields
+        function convertFromWEI() {
+            const weiValue = parseFloat(document.getElementById('wei').value) || 0;
+            document.getElementById('gwei').value = formatNumber(weiValue / weiToGwei);
+            document.getElementById('ether').value = formatNumber(weiValue / weiToEther);
+            document.getElementById('usd').value = formatNumber((weiValue / weiToEther) * ethPrice);
+            document.getElementById('huf').value = formatNumber(weiValue / weiToEther * ethPrice * usdToHufRate);
+        }
+
+        //Called when the user fills out the 'gwei' field, converts gwei to wei, ether, usd and huf and fills out the other input fields
+        function convertFromGWEI() {
+            const gweiValue = parseFloat(document.getElementById('gwei').value) || 0;
+            const weiValue = gweiValue * weiToGwei;
+            document.getElementById('wei').value =formatNumber(weiValue);
+            document.getElementById('ether').value = formatNumber(weiValue / weiToEther);
+            document.getElementById('usd').value = formatNumber((weiValue / weiToEther) * ethPrice);
+            document.getElementById('huf').value = formatNumber(weiValue / weiToEther * ethPrice * usdToHufRate);
+        }
+        
+        //Called when the user fills out the 'ether' field, converts ether to wei, gwei, usd and huf and fills out the other input fields
+        function convertFromEther() {
+            const etherValue = parseFloat(document.getElementById('ether').value) || 0;
+            const weiValue = etherValue * weiToEther;
+            document.getElementById('wei').value = formatNumber(weiValue);
+            document.getElementById('gwei').value = formatNumber(weiValue / weiToGwei);
+            document.getElementById('usd').value = formatNumber(etherValue * ethPrice);
+            document.getElementById('huf').value = formatNumber(etherValue * ethPrice * usdToHufRate);
+        }
+
+        //Called when the user fills out the 'usd' field, converts usd to ether, wei, gwei and huf and fills out the other input fields
+        function convertFromUSD() {
+            const usdValue = parseFloat(document.getElementById('usd').value) || 0;
+            const etherValue= usdValue / ethPrice;
+            const weiValue = etherValue * weiToEther;
+            document.getElementById('ether').value = etherValue;
+            document.getElementById('wei').value = formatNumber(weiValue);
+            document.getElementById('gwei').value = formatNumber(weiValue / weiToGwei);
+            document.getElementById('huf').value = formatNumber(usdToHufRate * usdValue);
+        }
+
+        //Called when the user fills out the 'huf' field, converts huf to usd, ether, wei and gwei and fills out the other input fields
+        function convertFromHUF() {
+            const hufValue = parseFloat(document.getElementById('huf').value) || 0;
+            const usdValue = formatNumber(hufValue / usdToHufRate);
+            document.getElementById('usd').value = usdValue;
+            const etherValue = usdValue / ethPrice;
+            const weiValue = etherValue * weiToEther;
+            document.getElementById('ether').value = etherValue;
+            document.getElementById('wei').value = formatNumber(weiValue);
+            document.getElementById('gwei').value = formatNumber(weiValue / weiToGwei);
+        }
+
+        //Function to fetch the current Ethereum price using the CoinGecko price oracle API
+        function fetchEthereumPrice() {
+            const ethPriceElement = document.getElementById('eth-price'); //DOM element to display the fetched ETH price
+
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd') //Fetch sends an HTTP request to the CoinGecko API endpoint, returns a JSON response
+                .then(response => response.json()) //Parse response as JSON
+                .then(data => { //The parsed JSON is processed further to extarct the ETH USD price
+                    ethPrice = data.ethereum.usd; //Store the Ethereum price in the variable 'ethPrice'
+                    ethPriceElement.textContent = `Current Ethereum Price: $${ethPrice.toFixed(0)}`; //The ETH price is displayed inside the 'ethPriceElement' by settings its textContent accordingly
+                })
+                .catch(error => { //Error handling (due to API overload)
+                    ethPriceElement.textContent = 'Error fetching Ethereum price'; //Inform the user about the error regarding the fetching of the current ETH price
+                });
+        }
+
+        //Function to fetch USD/HUF exchange rate using the Coingecko price oracle API
+        function fetchUSDHUFPriceRate() {
+            fetch('https://api.coingecko.com/api/v3/exchange_rates') //Fetch sends an HTTP request to the Coingecko API endpoint, returns a JSON response 
+                .then(response => response.json()) //Parse response as JSON
+                .then(data => { //The parsed JSON is processed further to extract the USD/HUF exchange rate
+                    usdToHufRate = data.rates.huf.value / data.rates.usd.value; //Store the USD to HUF exchange rate in the global variable 'usdToHufRate'
+                })
+                .catch(error => { //Error handling (due to API overload)
+                    alert("Error fetching USD/HUF rate: " + error.message); //Show error modal to inform the user about the error
+                });
+        }
+
+        //Function to fetch the current Ethereum network gas prices using the Etherscan gas oracle API
+        function fetchETHGasPrice() {
+            return fetch(etherscan_apiUrl) //Fetch sends an HTTP request to the Etherscan API endpoint, returns a Promise which resolves to an API response
+            .then(response => response.json()) //Parse response as JSON
+            .then(data => { //The parsed JSON is processed further to extact the gas prices
+                if (data.status === "1") { //Check status of the API call (1 is successful)
+                    const gasPrices = { //Extract gas prices from the data.result object
+                        low: data.result.SafeGasPrice,   //Low gas price
+                        average: data.result.ProposeGasPrice, //Average gas price
+                        high: data.result.FastGasPrice   //High gas price
+                    };
+                    return gasPrices; //Return gas prices
+                } else { //If the status of the API call is not 1, then throw an error
+                    throw new Error('Error fetching gas prices from Etherscan');
+                }
+            })
+            .catch(error => { //Error handling of fetch() request
+                alert("Error fetching gas prices:" + error.message); //Show error modal to inform the user about the error
+                return null; //Return null in case of an error
+            });
+        }
+
+        //Fetches and displays the gas prices
+        function fetchAndDisplayGasPrices()  { //Calls the fetch gas prices function which returns a Promise
+            fetchETHGasPrice().then(gasPrices => { //Handle the fetched gas prices
+                if (gasPrices) { //If the fetching was successful (not null), proceed with HTML customization for proper display to the user
+                    const gasPricesElement = document.getElementById('gas-price'); //Retrieves the HTML element 'gas-price'
+                    gasPricesElement.innerHTML = `
+                        <p style="font-size: 23px; font-weight: bold; margin-top: 0;">Ethereum Gas Cost</p>
+                        <p class="low-gas"<b>Low</b>: ${parseFloat(gasPrices.low).toFixed(4)} Gwei</p>
+                        <p class="average-gas"<b>Average</b>: ${parseFloat(gasPrices.average).toFixed(4)} Gwei</p>
+                        <p class="high-gas"<b>High</b>: ${parseFloat(gasPrices.high).toFixed(4)} Gwei</p>
+                    `; //Display the fetches gas prices in formatted HTML which can be targeted with CSS styling
+                }
+            });
+        }
+
+        //Pause (halt) execution temporary for a specified ms duration, can be used in async functions with the await keyword to delay execution
+        function sleep(ms) { //Returns a Promise that resolves after ms
+            return new Promise(resolve => setTimeout(resolve, ms)); //setTimeout schedules the resolve call after ms, timer completes and the Promise is fulfilled
+        } //At first webpage loadup (onload) to ensure prices are fetched before other functions are called sequentally
+
+        //Checks a condition every second (default 1000 ms, interval paramater) until it the condition is met or if timeout occurs in 10 seconds (default 10000 ms, timeout parameter)
+        async function waitForCondition(condition, interval = 1000, timeout = 10000) {
+            const startTime = Date.now(); //Save start time
+            
+            while (!condition()) { //While the condition is not met
+                if (Date.now() - startTime > timeout) { //Handle timeout, if the current date in the loop minus the saves start time when the function was called is greater than the timeout
+                    throw new Error("Condition not met within time limit"); //Throw an error in case of a timeout
+                }
+                await sleep(interval); //Delay the next condition check for interval (1000 ms by default), this put the loop into sleep for 1 second before checking the condition again
+            }
+        }
+
+        //Await for the condition when both ethPrice and usdToHufRate are fetched successfully
+        async function waitForPrices() {
+            await waitForCondition(() => ethPrice > 0 && usdToHufRate > 0); //Wait for condition to be met
+            convertFromEther(); //After the data is fetched from the APIs, fill out the input fields by calling convertFromEther()
+        }
+
+        //Refresh gas prices automatically every 30 seconds
+        function startAutoRefreshGasPrices() {
+            setInterval(() => { //setInterval calls the fetchAndDisplayGasPrices() function every 30 seconds
+                fetchAndDisplayGasPrices();
+            }, 30000); //30000 ms = 30 seconds
+        }
+
+        let countdownValueGasPrice = 30; //Start countdown from 30 seconds
+
+        //Display a countdown timer element for the user to see when will the next update happen
+        function startCountdownForGasPrices() {
+            countdownValueGasPrice = 30; //Reset the countdown to 30 seconds
+            const countdownElement = document.getElementById('countdown-timer-gas-price');
+
+            const countdownInterval = setInterval(() => {
+                countdownValueGasPrice--; //Reduce this variable by 1000 ms every second
+                countdownElement.textContent = `Next update in ${countdownValueGasPrice} seconds`; //Write out the value of the countdown variable every second
+                
+                if (countdownValueGasPrice <= 0) { //If the countdown varible has reached 0, then we clear the interval and start a new 30 second cycle
+                    clearInterval(countdownInterval); //Stop the countdown
+                    fetchAndDisplayGasPrices(); //Fetch new gas prices when countdown ends, we call it in both startAutoRefreshGasPrices() and startCountdownForGasPrices() for positive redundancy
+                    startCountdownForGasPrices(); //Restart countdown, start next cycle
+                }
+            }, 1000); //Update countdown every second
+        }
+
+        //Refresh ETH price automatically every 300 seconds
+        function startAutoRefreshETHPrice() {
+            setInterval(() => { //setInterval calls the fetchEthereumPrice() function every 300 seconds
+                fetchEthereumPrice();
+            }, 300000); //300000 ms = 300 seconds
+        }
+
+        let countdownValueETHPrice = 300; //Start countdown from 300 seconds
+
+        //Display a countdown timer element for the user to see when will the next update happen
+        function startCountdownForETHPrice() {
+            countdownValueETHPrice = 300; //Reset the countdown to 300 seconds
+            const countdownElement = document.getElementById('countdown-timer-eth-price');
+
+            const countdownInterval = setInterval(() => {
+                countdownValueETHPrice--; //Reduce this variable by 1000 ms every second
+                countdownElement.textContent = `Next update in ${countdownValueETHPrice} seconds`; //Write out the value of the countdown variable every second
+                
+                if (countdownValueETHPrice <= 0) { //If the countdown varible has reached 0, then we clear the interval and start a new 300 second cycle
+                    clearInterval(countdownInterval); //Stop the countdown
+                    fetchEthereumPrice(); //Fetch new ETH price when countdown ends, we call it in both startAutoRefreshETHPrice() and startCountdownForETHPrice for positive redundancy
+                    startCountdownForETHPrice(); //Restart countdown, start next cycle
+                }
+            }, 1000); //Update countdown every second
+        }
+
+        //When the website is loaded up we have to setup the page
+        window.onload = function() {
+            fetchUSDHUFPriceRate(); //Fetch USD/HUF price rate
+            fetchEthereumPrice(); //Fetch current ETH price
+            waitForPrices(); //Pause execution until the prices are fetched successfully or until the timeout is reached
+            document.getElementById('ether').value = "1"; //Set default value of 1 Ether for better UX
+            convertFromEther(); //Trigger conversion to update all input fields
+            fetchAndDisplayGasPrices(); //Gas price oracle fetch and display
+            startAutoRefreshGasPrices(); //Start auto refreshing gas prices with setInterval
+            startCountdownForGasPrices(); //Start countdown display for the gas prices
+            startAutoRefreshETHPrice(); //Start auto refreshing ETH price with setInterval
+            startCountdownForETHPrice(); //Start countdown display for the ETH price
+        }
+
+        //Copies the value from the specific element (inputID) to the clipboard, called when a 'copy-btn' class button is clicked by the user
+        function copyToClipboard(inputId) {
+            const inputElement = document.getElementById(inputId);
+            navigator.clipboard.writeText(inputElement.value);
+        }
+
+        //Validates the input of the user to ensure flawless operation and better UX, called on oninput at every input field (when there is a change in the input field value)
+        function validateInput(inputId) {
+            const inputElement = document.getElementById(inputId);
+            let value = inputElement.value;
+
+            //Only allow digits and a single decimal point
+            value = value.replace(/[^0-9.]/g, '');
+
+            //Prevent more than one decimal point
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join(''); //Cut off the second decimal point immediately
+            }
+
+            //If the value is negative, reset to 0
+            if (parseFloat(value) < 0 || value === '-') {
+                value = '0';
+            }
+
+            //Set the validated value back to the input element
+            inputElement.value = value;
+        }
+
+    </script>
+</body>
+</html>
