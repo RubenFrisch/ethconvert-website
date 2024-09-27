@@ -1,6 +1,8 @@
 # ethconvert-website
 # Ether Unit Converter
 
+#Domain: https://ethconvert.xyz/
+
 ## Overview
 The **Ether Unit Converter** is a simple, user-friendly web application that allows users to convert between various Ethereum-related units (Ether, GWEI, WEI) and fiat currencies (USD, HUF). The application also fetches dynamic Ethereum price and gas data from external APIs, providing real-time price and gas updates.
 
